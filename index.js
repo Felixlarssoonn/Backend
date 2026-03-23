@@ -2,7 +2,7 @@ const express = require("express");
 const puppeteer = require("puppeteer");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.get("/search", async (req, res) => {
   const query = req.query.q || "iphone";
@@ -18,22 +18,22 @@ app.get("/search", async (req, res) => {
 
     const results = await page.evaluate(() => {
       const items = [];
-const links = Array.from(document.querySelectorAll("a"));
+      const links = Array.from(document.querySelectorAll("a"));
 
-links.forEach(el => {
-  const title = el.innerText;
-  const url = el.href;
+      links.forEach(el => {
+        const title = el.innerText;
+        const url = el.href;
 
-  if (
-    title &&
-    url &&
-    title.length > 20 &&
-title.toLowerCase().includes("iphone") &&
-url.includes("/item/")
-  ) {
-    items.push({ title, url });
-  }
-});
+        if (
+          title &&
+          url &&
+          title.length > 20 &&
+          title.toLowerCase().includes("iphone") &&
+          url.includes("/item/")
+        ) {
+          items.push({ title, url });
+        }
+      });
 
       return items.slice(0, 20);
     });
