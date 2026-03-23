@@ -8,7 +8,11 @@ app.get("/search", async (req, res) => {
   const query = req.query.q || "iphone";
 
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"]
+    });
+
     const page = await browser.newPage();
 
     const url = `https://www.tradera.com/search?q=${encodeURIComponent(query)}`;
