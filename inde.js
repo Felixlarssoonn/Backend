@@ -27,15 +27,13 @@ app.get("/search", async (req, res) => {
       document.querySelectorAll("img").forEach(img => {
         const src = img.src;
 
+        // 🔥 FILTRERA BORT SKRÄP
         if (src.includes("img.tradera.net")) {
-          const parent = img.closest("a");
-          const url = parent ? parent.href : null;
-
           items.push({
             id: src,
-            title: parent?.innerText?.trim() || parent?.getAttribute("title") || "No title",
+            title: "Tradera item",
             image: src,
-            url: url,
+            url: "https://www.tradera.com",
             source: "tradera"
           });
         }
